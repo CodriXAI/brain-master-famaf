@@ -3,5 +3,5 @@ Temario dividido por capitulos para poder entender las secciones y poder facilit
 ## Temario:
 * 11 de Agosto: 
 	* [[CAPÍTULO 01 INTRODUCCION]]
-* 13 de Agosto:
+* 13 - 18 de Agosto:
 	* [[CAPÍTULO 03 ANÁLISIS Y ESPECIFICACIÓN]]
