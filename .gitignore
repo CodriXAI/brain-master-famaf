@@ -1,2 +1,4 @@
 #Ignoraremos los metadatos de Obsidian
 .obsidian
+#Vault será solo para notas temporales que necesitan migrarse
+VAULT/
