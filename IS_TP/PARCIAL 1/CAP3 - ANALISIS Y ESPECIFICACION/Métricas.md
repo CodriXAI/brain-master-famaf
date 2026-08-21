@@ -1,0 +1,3 @@
+NO OLVIDARSE DE EXPLICAR AL DESARROLLAR PUNTO FUNCIÓN DE CUÁL ES EL OBJETIVO:
+
+Explicar en términos de 1 punto funcion = X LOC

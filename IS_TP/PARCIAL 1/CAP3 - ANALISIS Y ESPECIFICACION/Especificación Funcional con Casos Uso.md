@@ -7,11 +7,12 @@
 * La forma básica es *textual*.
 * Generalmente a los usuarios les agrada, comprenden el formato y reaccionan facilmente. Es útil para la recolección de reqs.
 ## Formato de Casos de Uso
-* **Actor:** Una persona o un sistema que interactúa con el sistema propuesto para alcanzar un objetivo.
-* **Actor Primario:** El actor principal SIEMPRE inicia el Caso de Uso, el caso de uso debe satisfacer el objetivo del actor, la ejecución real puede ser hecha por un sistema u otra persona en representación del mismo.
+* **Actor:** Una persona o un sistema que interactúa con el sistema propuesto para alcanzar un objetivo. El actor (sea primario o secundario) es el que inicia del Caso de Uso, *NO el sistema*.
+* **Actor Primario:** El actor tiene la razón de ser, es el que genera que se haga el Caso de Uso.
+* **Actor Secundario:** Cuando el actor primario da la orden y el actor secundario interactúa con el sistema porque por alguna razón el actor primario no está interactuando. Ergo: El cajero de banco humano. *NO siempre existe*.
 * **Escenario:** Conjunto de acciones realizadas con el fin de alcanzar un objetivo bajo ciertas condiciones, las acciones se especifican paso a paso, Un paso es una acción lógicamente completa realizada tanto por el actor como por el sistema, la interacción es SOLO entre Actor a Sistema y no entre actores.
-* **Escenario exitoso principal:** Cuando todo funciona bien y se alcanza el objetivo.
-* **Escenarios Alternativos (de Excepción):** Cuando algo sale mal y el objetivo no pudo ser alcanzado
+* **Escenario exitoso principal:** Cuando todo funciona bien y se alcanza el objetivo, *podría tener subcasos*.
+* **Escenarios Alternativos (de Excepción):** Cuando algo sale mal y el objetivo no pudo ser alcanzado.
 ## Observaciones
 * Un caso de uso es una colección de escenarios .
 * Un escenario puede emplear otros casos de uso en un paso.

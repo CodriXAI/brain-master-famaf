@@ -5,3 +5,5 @@ Temario dividido por capitulos para poder entender las secciones y poder facilit
 	* [[CAPÍTULO 01 INTRODUCCION]]
 * 13 - 18 de Agosto:
 	* [[CAPÍTULO 03 ANÁLISIS Y ESPECIFICACIÓN]]
+* 20 de Agosto:
+	* [[CAPÍTULO 04 ARQUITECTURA DEL SOFTWARE]]

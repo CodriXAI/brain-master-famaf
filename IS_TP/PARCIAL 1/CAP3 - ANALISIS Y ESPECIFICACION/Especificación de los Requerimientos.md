@@ -12,25 +12,25 @@ Tampoco la SRS es una formalización del modelo.
 
 ## ¿Cuáles son las características de una SRS?
 ### Correcta
-Todos los requerimientos de la SRS son los requerimientos deseados por el cliente.
+Todos los requerimientos de la SRS hayan sido deseados por el cliente.
 ### Completa
 Todos los requerimientos deseados por el cliente están en la SRS (MUY Dificil).
 ### No Ambigua
-Los requerimientos tienen un solo significado.
+Los requerimientos tienen un solo significado bajo ese contexto.
 ### Consistente
 No hay contradicciones entre requerimientos.
 ### Verificable
-Para cada requerimiento hay un proceso efectivo que garantiza que se está cumpliendo.
+Para cada requerimiento hay un proceso efectivo que garantiza que se está cumpliendo. Que sea medible o chequeable por cada req.
 ### Rastreable
-Puede determinarse el origen de cada requerimiento y cómo se relaciona con el software, de manera bidireccional:
+Puede determinarse el origen de cada requerimiento (de la SRS al sistema) y cómo se relaciona con el software, de manera bidireccional:
 *Hacia Adelante:* Qué elementos del software satisfacen el requerimiento.
 *Hacia Atrás:* Qué requerimiento satisfacen los elementos del software.
 ### Modificable
-Permite incorporar cambios fácilmente manteniendo completitud y consistencia (anteriormente mencionados). Se debe evitar a toda costa la rebundancia, porque complica la modificación.
+Permite incorporar cambios fácilmente manteniendo completitud y consistencia (anteriormente mencionados). Se debe evitar a toda costa la *rebundancia*, porque complica la modificación.
 ### Ordenada en términos de importancia y estabilidad
 Tiene bien definido el orden de prioridades, así, se reducen riesgos debido a cambios de reqs.
 Los requerimientos pueden ser críticos, importantes pero no críticos, deseables pero no importantes.
-Algunos reqs son esenciales y dificilmente cambien con el tiempo, otros son más propensos a cambiar.
+Algunos reqs son *esenciales* y dificilmente cambien con el tiempo, otros son más propensos a cambiar.
 
 ## ¿Qué debe contener una SRS?
 Una SRS debe contener requerimientos sobre:
