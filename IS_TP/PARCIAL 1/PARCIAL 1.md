@@ -7,3 +7,5 @@ Temario dividido por capitulos para poder entender las secciones y poder facilit
 	* [[CAPÍTULO 03 ANÁLISIS Y ESPECIFICACIÓN]]
 * 20 de Agosto:
 	* [[CAPÍTULO 04 ARQUITECTURA DEL SOFTWARE]]
+* 25 - 27 de Agosto:
+	* [[CAPÍTULO 06-07 DISEÑO]]
