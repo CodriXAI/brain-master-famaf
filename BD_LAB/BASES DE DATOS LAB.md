@@ -4,3 +4,4 @@ Materia de 3er año enfocada en el diseño, desarrollo y mantenimiento de sistem
 
 ## PRÁCTICOS
 * [[PRÁCTICO 1 DISEÑO BDR]]
+* [[PRÁCTICO 2 SQL]]
