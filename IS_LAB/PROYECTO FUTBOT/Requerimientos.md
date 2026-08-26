@@ -1,17 +1,17 @@
 ## Respecto al Partido:
 * 2 modos de juego: Amistosos y de liga.
-* 6 Jugadores de cada equipo por partido (formato 3 vs 3) 3 jugadores titulares, 3 jugadores suplentes.
+* 6 Jugadores de cada equipo por partido (formato 3 vs 3) 3 jugadores titulares, 3 jugadores suplentes, donde cada jugador de los 6 deberían tener comportamiento por default (una vez creado).
 * Se pueden cambiar los comportamientos establecidos de los jugadores DURANTE el partido.
 * Duración por partido: N minutos.
 * Turnos (jugadas, ticks): En vivo y síncronos.
 * Hay 3 pausas: 2 cooling break y 1 entretiempo, equidistantes en terminos a la duración N.
-* Un cambio por pausa (o entre pausas), es decir, 3 cambios por partido.
+* Un cambio por pausa (o entre pausas), es decir, 3 cambios por partido, NO se acumulan los cambios si no se utilizan, se pierden.
 * No hay cansancio ni factores externos que modifiquen el partido.
 * En cada partido: El usuario puede ver stats y comportamientos de sus propios jugadores, sin embargo, para el usuario enemigo, solo podemos ver las stats, MAS NO sus comportamientos.
 ## Respecto a las Ligas:
 * Se pueden listar.
 * Se puede ver el ranking.
-* Si tienen contraseña son privadas, si no, son publicas.
+* Si tienen contraseña (opcional) son privadas, si no, son publicas.
 * Tiene un fixture que lo decide el sistema.
 * Cada una contendría: Nombre, tiempo de partido (*sin límite*), cantidad de equipos max, min (con cota inferior de al menos 3 equipos), contraseña debe ser opcional.
 * Una vez creada la liga, el usuario que la creó automáticamente está participando con su equipo *(atentos a los casos de uso aquí)*.
@@ -41,6 +41,7 @@
 * Un jugador es manejado por un bot, vía comportamientos en base a estadísticas.
 * No hay limite de creación de jugadores, pueden ser N.
 * Los jugadores actúan en tiempo real mediante *código Python*.
+* Cada jugador debe tener un número asociado (estética).
 ## Respecto a los Equipos:
 * Es uno por usuario
 * Se pueden listar.
@@ -49,8 +50,12 @@
 * Los comportamientos se crean con antelación, al momento del partido solo se validan.
 * Los cambios de comportamientos es manual (salvo que implementemos al DT como un script automatico).
 * Los cambios de comportamientos se ejecutan en el siguiente tick (turno), y no son definitorios (es decir, que se pueden volver a cambiar).
-* Los jugadores titulares deben tener comportamientos pre-partido, los suplentes no es necesario.
+* Los jugadores titulares deben tener comportamientos pre-partido, los suplentes es también necesario (decisión de diseño).
 ## Reglas varias:
 * No hay arqueros (comportamientos de agarrar con la mano).
 * No hay arbitros, faltas ni offside.
 * Hay un ranking global de todos los equipos con sus puntos.
+
+
+## NUEVOS:
+* Solucionar las alineaciones de los jugadores, deben empezar de alguna forma ya determinada, la pelota siempre en el centro.
