@@ -7,7 +7,7 @@ Lo mismo ocurre con los módulos especificandose como funciones o procesos.
 * Es una unidad discreta e identificable respecto a compilación y carga.
 
 ## ¿Qué es el Acoplamiento en Funciones?
-* Definido como un grado de dependencia (relaciones) que hay *ENTRE LOS MÓDULOS*.
+* Definido como las relaciones directas que hay *ENTRE LOS MÓDULOS*.
 * Es un concepto inter-modular.
 * Deseable que haya *bajo acoplamiento* entre módulos.
 Puede darse por:
@@ -87,7 +87,7 @@ Captura el flujo de datos del sistema propuesto y lo representa en un DFD.
 	* Tamaño del módulo (Sospechar si se pasa de las 100 LOC).
 	* Cantidad de Flechas de salida y llegada (Sospechar si son más de 5 flechas de salida y las de llegada debe maximizarse).
 	* Alcance del efecto y control de un módulo.
-	* Rule of Thumb (Dirección del Viento con el dedo) "Por cada módulo, el alcance de efecto debe ser subconjunto del de control" (Que si yo me modifico, me voy a verificar a mis subordinados, y en caso de que haya un cambio fuera del subconjunto, sospechar)
+	* Rule of Thumb (Dirección del Viento con el dedo / A OJO) "Por cada módulo, el alcance de efecto debe ser subconjunto del de control" (Que si yo me modifico, me voy a verificar a mis subordinados, y en caso de que haya un cambio fuera del subconjunto, sospechar)
 ## ¿Cuál es el objetivo de la verificación del diseño?
 Asegurar que el diseño implemente los requerimientos => Corrección
 
@@ -95,11 +95,11 @@ Asegurar que el diseño implemente los requerimientos => Corrección
 ### Tamaño
 Cant de módulos y sus tamaños.
 ### Complejidad
-Módulos simples es mejor
+Módulos simples es mejor.
 ### Métricas de red
-Enfocado en diagrama de estructura. Es bueno si el módulo tiene un solo módulo invocador
+Enfocado en diagrama de estructura. Es bueno si el módulo tiene un solo módulo invocador.
 ### Métricas de estabilidad
-Cantidad de módulos dependientes de el que tiene otro módulo
+Cantidad de módulos dependientes de el que tiene otro módulo.
 ### Métricas de flujo de información
 Mide complejidad en funcion de la info. que entra/sale, modulos que llaman/llama:
 
@@ -108,4 +108,6 @@ DC = fun_in * fun_out + in_flow * outflow
 Se calcula el promedio y desviación estándar de todos los módulos => 
 DC = media + estándar  -> Propenso a error
 media < DC < media + estándar -> Complejo
-Normal en caso contrario
+Normal en caso contrario.
+
+Media del mismo sistema.
