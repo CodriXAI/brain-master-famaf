@@ -4,4 +4,5 @@ Indagaremos en lo que es un buen Diseño del Software, metodologías, y caracter
 * [[Criterios de evaluacion]]
 * [[Principios Fundamentales]]
 * [[Diseño orientado a funciones]]
+* [[Diseño orientado a objetos]]
 
