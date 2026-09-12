@@ -11,7 +11,6 @@
 * Colección de unidades de código.
 * Cada una implementa una funcionalidad del sistema.
 * El elemento principal son los módulos.
-* 
 ### Componentes y Conectores (C&C):
 * *Componentes:* Unidades de ejecución.
 * *Conectores:* La relación/interacción entre componentes.

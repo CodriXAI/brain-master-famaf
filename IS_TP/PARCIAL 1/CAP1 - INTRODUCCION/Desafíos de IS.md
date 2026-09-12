@@ -32,7 +32,7 @@ Es dificil establecerla, se define en 6 criterios:
 ### Cambios
 El software que desarrolle la IS debe ser facilmente adaptable ante los habituales cambios del entorno (usuarios, clientes, empresas, etc.) 
 
-### Conclusión
+**Conclusión**
 El desafío de la IS es producir software de alta calidad y productividad, adaptable a los cambios, escalable y consistente.
 
 

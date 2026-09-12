@@ -6,10 +6,10 @@
 * Las técnicas OO pueden usarse tanto para Análisis de reqs como para el diseño.
 * Los métodos y notaciones son similares
 ### Diferencias:
-| AOO                          |                                                                                                  DOO |
+| AOO                          |                                                                                                DOO |
 | :--------------------------- | -------------------------------------------------------------------------------------------------: |
-| Modela el problema                                                                                   Modela la solución al problema |
-| Manipulan objetos semánt Además de los objetos semánticos, manipulan: Objetos de interfaces, de aplicaciones, y de utilidad s,  n:  |
+| Modela el problema           |                                                                     Modela la solución al problema |
+| Manipulan objetos semánticos | Además de los objetos semánticos, manipulan: Objetos de interfaces, de aplicaciones, y de utilidad |
 
 ## Clases y Objetos
 ### Objetos:
@@ -75,7 +75,7 @@ Existen 3 tipos de Cohesión en objetos:
 * *Disminuye:* Si una clase representa múltiples conceptos.
 ### Cohesión de herencia
 * Describe ¿Por qué distintas clases están juntas en la misma jerarquía?
-* *Aumenta:* Clases jerarquizadas en consecuencia de generalización-especificación
+* *Aumenta:* Clases jerarquizadas en consecuencia de *generalización-especificación y el reuso* -> Más énfasis acá.
 
 ## ¿Qué principios debe cumplir el diseño Orientado a Objetos? (SOLID) Explicarlos brevemente
 
@@ -105,6 +105,8 @@ Bárbara Hubermann
 Las clases deben depender de las abstracciones/interfaces y no de implementaciones concretas
 ## ¿Qué es la metodología OTM (Object  Modeling Technique)?
 Una serie de pasos para lograr obtener un modelo detallado final.
+
+Los pasos 2 y 3, sirven para poder analizar el diagrama y al producir los modelos dinámico y funcional, pueden generar nuevas operaciones que no teníamos antes y que formarán parte del resultado
 ### 1. Producir el diagrama de clases
 * Mismo que obtenemos en el análisis
 ### 2. Producir el modelo dinámico y usarlo para definir operaciones de las clases
@@ -125,6 +127,9 @@ Una serie de pasos para lograr obtener un modelo detallado final.
 * Ajustar la herencia
 ## ¿Cuáles son las métricas en el diseño Orientado a Objetos?
 
+Una métrica es para poner un valor numérico a una cosa, y en base a ello se evalúa si está dentro de los rangos esperados.
+
+Se pueden pedir: Comparacion entre metricas, que se hace con el numero.
 ### Métodos pesados por clase (WMC)
 * Mide complejidad de una clase
 * Depende de la cantidad de métodos de la misma y su complejidad

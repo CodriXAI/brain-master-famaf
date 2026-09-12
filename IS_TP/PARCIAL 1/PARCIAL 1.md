@@ -9,3 +9,7 @@ Temario dividido por capitulos para poder entender las secciones y poder facilit
 	* [[CAPÍTULO 04 ARQUITECTURA DEL SOFTWARE]]
 * 25 - 27 de Agosto:
 	* [[CAPÍTULO 06-07 DISEÑO]]
+
+## Prácticas:
+* 11 de Septiembre:
+	* [[CASOS DE USO]]
