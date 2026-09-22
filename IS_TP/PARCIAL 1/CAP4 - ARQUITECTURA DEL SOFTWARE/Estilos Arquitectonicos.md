@@ -9,6 +9,7 @@ Aquí haremos foco en la *Vista de la arquitectura C&C*, pues es la más utiliza
 * Adecuado para sistemas que realizan transformaciones de datos
 * Un solo componente => Filtros, Un solo conector => Tubos
 * La información llega a un Filtro, este la transforma, se la pasa a otro Filtro vía un Tubo
+* Importante mencionar lo del sistema puro
 * *Restricciones:* 
 	* *Filtros:* 
 		* Solo produce/consume datos.

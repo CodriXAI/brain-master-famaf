@@ -1,5 +1,6 @@
 El diseño es *CREATIVO* (puede implementarse según interpretación subjetiva) => No hay PASOS RIGUROSOS para su creación, pero si existen ciertos principios a seguir.
 
+Se realizan antes del desarrollo del diseño.
 ## ¿Cuáles son los principios fundamentales del Diseño?
 
 ### Partición y Jerarquía:

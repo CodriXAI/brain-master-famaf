@@ -3,7 +3,7 @@ La arquitectura tiene impacto sobre *atributos no funcionales* (modificabilidad,
 ## ¿Qué es ATAM?
 ATAM (Architecture Tradeoff Analysis Method) es una técnica elaborada y formal para evaluar la arquitectura de un sistema.
 
-Analiza la arquitectura para ciertas propiedades, identifica dependencias entre las mismas y hace un analisis de compromisos (en relacion a atributos de calidad/interes) en una serie de pasos:
+Analiza la arquitectura para ciertas propiedades, identifica dependencias entre las mismas y hace un analisis de compromisos, en relacion a atributos de calidad/interes, bajo una serie de pasos:
 
 ### 1. Recolectar Escenarios:
 * Se recoletan escenarios (interacciones con el sistema) de interés para el análisis

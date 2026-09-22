@@ -25,3 +25,7 @@ El sistema es visto como objetos que interactúan entre sí o con el usuario a t
 Se construye un sistema parcial prototípico que ayuda a visualizar como será el sistema final, tiene dos enfoques:
 * **Descartable:** El prototipo se descarta al finalizar la fase.
 * **Evolutivo:** Se piensa el prototipo de manera que evolucione al sistema final.
+En la sección *3.2.4* del Jalote, se especifica que se clasifican los requerimientos en términos de claridad:
+* **Bien entendidos (Well Understood):** Requerimientos claros, estables y sin ambiguedad, no requieren prototipado, pues se documentan directamente a la SRS.
+* **Poco entendidos (Poorly Understood):** Requerimientos donde el cliente o equipo tienen dudas, ideas vagas o ambiguedades.
+* **Desconocidos (Unknown):** Necesidades no identificadas explicitamente al inicio.

@@ -48,15 +48,15 @@ Describe la relación entre los módulos, por lo que es un concepto inter-modula
 
 Existen 3 tipos distintos de acoplamiento en objetos:
 ### Por Interacción:
-* Métodos de una clase invocan a otros
+* Métodos de una clase invocan a métodos de otra clase
 * **Aumenta:**
 	* Métodos acceden a partes internas de otros métodos
 	* Manipulan variables de otras clases
 * **Disminuye:** 
-	* Métodos se comunican a través de parámetros
+	* Métodos se comunican a través de parámetros, y con el menor número posible.
 ### De componentes:
-* **Aumenta:** Cuando una clase A tiene variables de otra clase C (variables de instancia, parámetros, variables locales)
- * **Disminuye:** Si las variables de clase C en A son, o bien atributos, parámetros en un método, son visibles.
+* **Aumenta:** Cuando una clase A tiene variables de otra clase C (variables de instancia, variables locales)
+ * **Disminuye:** Si las variables de clase C en A son, o bien atributos, o parámetros en un método, son visibles.
 ### De herencia:
 * Dos clases están acopladas si una es subclase de otra
 * **Aumenta:** Si las subclases modifican la *SIGNATURA (firma)* de un método, no modifican la signatura pero si su comportamiento o si eliminan un método
@@ -67,14 +67,14 @@ La cohesión captura cuán relacionado están los elementos de un módulo, es un
 
 Existen 3 tipos de Cohesión en objetos:
 ### Cohesión de método
-* Describe el ¿Por qué elementos están juntos en el mismo método?
+* Describe el por qué los elementos están juntos en el mismo método.
 * *Aumenta:* Si cada método implementa una ÚNICA función claramente definida con todos sus elementos contribuyendo a implementar la función.
 ### Cohesión de clase
-* Describe ¿Por qué los atributos y métodos están en una misma clase?
+* Describe el por qué los atributos y métodos están en una misma clase.
 * *Aumenta:* Si una clase representa un único concepto.
 * *Disminuye:* Si una clase representa múltiples conceptos.
 ### Cohesión de herencia
-* Describe ¿Por qué distintas clases están juntas en la misma jerarquía?
+* Describe el por qué distintas clases están juntas en la misma jerarquía.
 * *Aumenta:* Clases jerarquizadas en consecuencia de *generalización-especificación y el reuso* -> Más énfasis acá.
 
 ## ¿Qué principios debe cumplir el diseño Orientado a Objetos? (SOLID) Explicarlos brevemente
@@ -103,7 +103,7 @@ Bárbara Hubermann
 * Evitar enviar información innecesaria al cliente dará como resultado una interfaz mucho mas simple
 ### Principio de inversión de dependencias
 Las clases deben depender de las abstracciones/interfaces y no de implementaciones concretas
-## ¿Qué es la metodología OTM (Object  Modeling Technique)?
+## ¿Qué es la metodología OMT (Object  Modeling Technique)?
 Una serie de pasos para lograr obtener un modelo detallado final.
 
 Los pasos 2 y 3, sirven para poder analizar el diagrama y al producir los modelos dinámico y funcional, pueden generar nuevas operaciones que no teníamos antes y que formarán parte del resultado
@@ -115,14 +115,10 @@ Los pasos 2 y 3, sirven para poder analizar el diagrama y al producir los modelo
 	* Y un *escenario* es una secuencia de eventos que ocurre en una ejecución particular del sistema.
 * Define las operaciones de una clase
 ### 3. Producir el modelo funcional y usarlo para definir operaciones de las clases
-* Describe las operaciones que tienen lugar en el sistema
 * Especifica cómo computar las salidas a partir de las entradas
-* Se utiliza el DFD
 ### 4. Identificar las clases internas y sus operaciones
 * Se evalúan críticamente las clases para ver si son necesarias en su forma actual teniendo en cuenta cuestiones de implementación
 ### 5. Optimizar y empaquetar
-* Agregar asociaciones redundantes
-* Guardar atributos derivados
 * Usar tipos genéricos
 * Ajustar la herencia
 ## ¿Cuáles son las métricas en el diseño Orientado a Objetos?

@@ -22,15 +22,16 @@ No hay contradicciones entre requerimientos.
 ### Verificable
 Para cada requerimiento hay un proceso efectivo que garantiza que el software final satisface dicho requerimiento. Que sea medible o chequeable por cada req.
 ### Rastreable
-Puede determinarse el origen de cada requerimiento (de la SRS al sistema) y cómo se relaciona con el software, de manera bidireccional:
+Puede determinarse el origen de cada requerimiento (de la SRS al sistema) y cómo se relaciona con el sistema final, de manera bidireccional:
 *Hacia Adelante:* Qué elementos del software satisfacen el requerimiento.
 *Hacia Atrás:* Qué requerimiento satisfacen los elementos del software.
 ### Modificable
 Permite incorporar cambios fácilmente manteniendo completitud y consistencia (anteriormente mencionados). Se debe evitar a toda costa la *redundancia*, porque complica la modificación.
 ### Ordenada en términos de importancia y estabilidad
 Tiene bien definido el orden de prioridades, así, se reducen riesgos debido a cambios de reqs.
-Los requerimientos pueden ser críticos, importantes pero no críticos, deseables pero no importantes.
 Algunos reqs son *esenciales* y dificilmente cambien con el tiempo, otros son más propensos a cambiar.
+*Importancia:* (Definida en el libro) Refleja el valor o la prioridad que tiene un requerimiento especifico. Los requerimientos pueden ser: críticos, importantes pero no críticos, deseables pero no importantes.
+*Estabilidad:* (Definida en el libro) Refleja la probabilidad de que un requerimiento cambie.
 
 ## ¿Qué debe contener una SRS?
 Una SRS debe contener requerimientos sobre:

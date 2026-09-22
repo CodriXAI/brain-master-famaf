@@ -4,8 +4,7 @@
 * Paciente
 
 **Precondición**
-* El sistema se encuentra en línea.
-* Existe al menos un médico registrado con al menos un turno.
+* Deben estar cargados los datos de turnos (con médico, día, horario, coseguro y estado ocupado/disponible).
 
 **Escenario exitoso principal:**
 1. El paciente ingresa al sistema y solicita pedir un turno.

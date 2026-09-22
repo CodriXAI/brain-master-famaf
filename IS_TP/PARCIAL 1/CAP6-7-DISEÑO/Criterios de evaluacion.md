@@ -1,10 +1,12 @@
 ## ¿Cuáles son los criterios de evaluación del diseño? Explicar
 
 *OBS:* Eficiencia y Simplicidad no son independientes, se debe hallar un balance.
+
+Posterior al desarrollo del diseño, se evalúan los siguientes criterios:
 ### Corrección:
-* El fundamental.
 * Es correcto si implementa todos los requerimientos
-* Es factible dada las restricciones 
+* Hay una relación del diseño con la SRS
+* Es *factible* dada las restricciones (muy importante)
 ### Eficiencia:
 * Uso apropiado de los recursos del sistema (CPU y memoria sobre todo).
 * En segundo plano por bajo costo del hardware.

@@ -7,21 +7,21 @@ Lo mismo ocurre con los módulos especificandose como funciones o procesos.
 * Es una unidad discreta e identificable respecto a compilación y carga.
 
 ## ¿Qué es el Acoplamiento en Funciones?
-* Definido como las relaciones directas que hay *ENTRE LOS MÓDULOS*.
+* Definido como un grado de dependencia / las relaciones directas que hay *ENTRE LOS MÓDULOS*.
 * Es un concepto inter-modular.
 * Deseable que haya *bajo acoplamiento* entre módulos.
 Puede darse por:
 * **Tipo de conexión:**
-	* Tiene que ver con la complejidad y oscuridad de las interfaces de un módulo.
-		* **Disminuye:** Solo las entradas definidas en un módulo son usadas por otro.
-		* **Aumenta:** Usamos interfaces indirectas y oscuras (no es facil de ver), variables compartidas.
+	* Relacionado con la complejidad y oscuridad de las interfaces de un módulo.
+		* **Disminuye:** Solo las entradas definidas en un módulo son usadas por otros. *i.e, usar solo las firmas o "funciones públicas" de un módulo.*
+		* **Aumenta:** Usamos interfaces indirectas y oscuras (no es facil de ver), variables compartidas. *i.e modificar un dato/variable interna de un módulo desde otro.*
 * **Complejidad de cada interfaz:**
 	* Cantidad y complejidad de los parámetros.
-	* Más compleja => Más acoplamiento.
+	* Más compleja => Más acoplamiento. *i.e, mostrar más información de la necesaria en la interfaz*
 * **Tipo de flujo de información:**
 	* Con qué info se comunican los módulos:
 	* **Bajo acoplamiento:** La comunicación es solo a través de info de datos o info de control
-	* **Alto acomplamiento:** Comunicación híbrida (datos + control).
+	* **Alto acomplamiento:** Comunicación híbrida (datos + control). *i.e las flags*
 
 ## ¿Qué es la Cohesión en Funciones? Listar los Tipos de más baja cohesión a mas alta y definir.
 * Definido como la relación que hay entre los elementos *DEL MISMO MÓDULO*.

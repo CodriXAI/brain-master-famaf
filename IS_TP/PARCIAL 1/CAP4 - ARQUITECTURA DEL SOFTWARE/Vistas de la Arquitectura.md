@@ -1,9 +1,8 @@
 *No hay una única arquitectura de un sistema*.
 
 ## ¿Qué es una vista de la arquitectura?
-* Es una representación del sistema como compuesto por elementos y las relaciones entre ellos.
+* Una colección de elementos del software y sus relaciones entre ellos
 * Define una estructura.
-* Los elementos que utilice la vista dependerá de lo que la vista quiera resaltar.
 ## ¿Qué tipos hay? Explicar
 
 *OBS: Todas las vistas coexisten entre sí, representando a la misma arquitectura.*
