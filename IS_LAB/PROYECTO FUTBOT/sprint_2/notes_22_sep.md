@@ -1,0 +1,6 @@
+* Lo único bloqueante en el proyecto del segundo sprint es al momento de querer iniciar la liga por parte del anfitrión. Los partidos amistosos queda a decisión de diseño nuestra.
+* Podemos tener un seguimiento de los requerimientos sin tener que esperar al último día, y podemos preguntar como: Estamos haciendo los siguientes requerimientos, y no llegamos con estos otros, o estamos haciendo los requerimientos y vemos que no llegamos con todos los requerimientos, ¿Cuál conviene priorizar?
+* Hay espectadores pero si no los hacemos esta bien ya que no hay requerimiento que diga "Espectar Partido", el mínimo indispensable es que los dos usuarios involucrados en el partido puedan estar viendo el partido.
+* Si hay dos lugares en dos clases diferentes y no hay buena forma de refactorizarla afuera, no está bueno refactorizarlo afuera. Cuando cumplen la misma función, hay que modularizar, en cambio si son sintácticamente iguales, hay que revisar bien a qué funcionalidad apuntan.
+* No hace falta el ticket de integración del endpoint con el Front.
+* Existe una manera de poder recargar el request body para no tener que buscar en servidores, o en la base de datos, pero necesitamos una estructura bien formada, o un identificador (i.e, ejemplo del profe fue tener una cookie para traerse los datos del usuario).

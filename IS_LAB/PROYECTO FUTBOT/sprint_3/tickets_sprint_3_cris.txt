@@ -1,0 +1,247 @@
+Tickets a desarrollar originalmente:
+
+[BACK] Implementar Pausas en el motor del partido -> Cris
+[BACK] Eventos WS de las Pausas -> Cris
+[BACK] Implementar función substitution en el motor -> Cris
+[BACK] Implementar Endpoint de Substitution -> Cris
+
+Descomponiendo el ticket de Pausas en el motor del partido, obtenemos:
+[BACK] Implementar lógica de ticks en Pausas (Cooling Break y Half-Time)
+[BACK] Implementar cambio de posición de jugadores tras Half-Time 
+
+Tickets a desarrollar:
+[BACK] Implementar lógica de ticks en Pausas (Cooling Break y Half-Time) -> Cris
+[BACK] Implementar cambio de posición de jugadores tras Half-Time -> Cris
+[BACK] Eventos WS de las Pausas -> Cris
+[BACK] Implementar función substitution en el motor -> Cris
+[BACK] Implementar Endpoint de Substitution -> Cris
+
+========================================================= DESARROLLO TICK PAUSA =========================================================
+
+**[BACK] Implementar lógica de ticks en Pausas (Cooling Break y Half-Time)**
+
+Dado que un partido dura total_ticks ticks (240 o 600) y hoy los partidos se juegan de corrido, sin pausas.
+Cuando el partido llega a un tick de pausa.
+Entonces el motor pasa a la fase PAUSED y el reloj se detiene (current_tick no avanza y no se envían TICK_UPDATE) durante la pausa.
+Al terminar, vuelve a IN_PROGRESS y sigue solo desde el mismo tick.
+
+De esta forma el partido tiene momentos de pausa donde se podrán hacer sustituciones.
+
+Notas técnicas
+
+* Propuesta de Calendario:
+    * Está adaptada (proporcional) a partir de las dos posibilidades de duración de TICKS en un partido: 240 Ticks o 600 Ticks
+    * Cooling Break al 25 % y 75 % de total_ticks, Half-Time al 50 % (240 → 60/120/180; 600 → 150/300/450).
+    * Duración: Cooling Break 10 s, Half-Time 20 s.
+    * Van como constantes y como pause_schedule_for(total_ticks) en _01_to_world/metrics.py.
+* Se agrega PAUSED a MatchPhase. 
+* Se agrega pause a MatchState (tipo, número e instante de fin; None si no hay)
+
+Criterios de aceptación
+
+* pause_schedule_for(240) y (600) devuelven los ticks y tipos esperados.
+* Al llegar a un tick de pausa, state.phase es PAUSED y current_tick no cambia mientras dura.
+* Durante la pausa no se ejecutan comportamientos ni se envían TICK_UPDATE.
+* Al terminar vuelve a IN_PROGRESS, sigue desde el mismo tick y cada pausa ocurre una sola vez.
+* El partido termina en FINISHED y guarda el resultado habiendo pasado por las 3 pausas. 
+* Los tests existentes del runner siguen siendo válidos.
+
+========================================================= DESARROLLO HALF TIME =========================================================
+
+**[BACK] Implementar cambio de posición de jugadores tras Half-Time**
+BLOQUEADO por: Implementar lógica de ticks de pausas 
+
+Dado que en el Half-Time los equipos intercambian de lado de cancha.
+Cuando termina la pausa de Half-Time.
+Entonces cada equipo pasa a defender el arco contrario, los jugadores quedan en sus posiciones iniciales espejadas, 
+la pelota vuelve al centro y los goles siguen sumando al equipo correcto.
+
+De esta forma el segundo tiempo se juega con los lados invertidos.
+
+Notas técnicas
+
+* “Espejar” se interpreta como cambio de lado más reinicio en las posiciones iniciales espejadas. 
+* Solo espejar posiciones, sin invertir side, haría que los jugadores defiendan el arco equivocado.
+* MatchPlayerState.side define el arco que defiende (el snapshot usa goal_center(side)). 
+* Hay que invertirlo en todos los jugadores, también en los suplentes, para que los que entren después ya tengan el lado correcto.
+* position e initial_position pasan a (105 - x, 60 - y), la misma fórmula que starter_position usa para AWAY. 
+* Pelota al centro con velocidad 0.
+* Riesgo: run_tick suma a score.home cuando detect_goal devuelve TeamSide.HOME. Con los lados invertidos el gol iría al equipo 
+equivocado, así que el marcador debe seguir al equipo y no al lado.
+Contrato: hoy dice que el anfitrión defiende siempre x = 0. Hay que aclarar “en el primer tiempo” y avisar al front.
+
+Criterios de aceptación
+
+* Tras el Half-Time, side de todos los jugadores (en cancha y banco) está invertido.
+* Los jugadores en cancha están en la posición inicial espejada y la pelota en el centro con velocidad 0.
+* Un gol en el segundo tiempo suma al equipo correcto (el anfitrión ahora ataca x = 0 y su gol suma a score.home).
+* team_goal y opponent_goal del snapshot reflejan el lado nuevo.
+* El Cooling Break no cambia lados ni posiciones.
+
+========================================================= DESARROLLO WS Pausas =========================================================
+
+[BACK] Eventos WS de las Pausas
+BLOQUEADO por: Implementar lógica de ticks de pausas 
+
+Dado que el cliente no se entera de las pausas pues el canal del partido solo envía TICK_UPDATE.
+Cuando empieza o termina una pausa.
+Entonces el servidor envía PAUSE_STARTED y PAUSE_FINISHED por el WebSocket del partido según corresponda, y 
+GET /matches/{id}/state informa la fase y la pausa actual.
+
+De esta forma el front puede mostrar la pausa, incluso si el usuario recarga o se conecta durante ella.
+
+Notas técnicas
+
+* Canal WS del partido, no al WS Global.
+* Payloads (Charlar con el front):
+    {"event": "PAUSE_STARTED", "match_id": 12, "type": "HALF_TIME", "duration_seconds": 30, "current_tick": 300}
+    {"event": "PAUSE_FINISHED", "match_id": 12, "type": "HALF_TIME", "sides_swapped": true}
+    donde:
+    * type puede ser COOLING_BREAK o HALF_TIME. 
+    * sides_swapped es true solo en el Half-Time, false caso contrario.
+* Se arman con funciones puras en match_broadcast.py (como build_tick_update_payload) y entran a run_match por el notify_pause. 
+* Si el envío falla, el partido sigue, igual que con notify.
+* Se agrega phase en MatchStateResponse (IN_PROGRESS o PAUSED) y pause ({type, remaining_seconds} o null), calculado con el instante 
+de fin guardado en MatchState.pause.
+* Se debe ACTUALIZAR EL CONTRATO DE API, agregando los eventos WS en el mismo PR.
+
+Criterios de aceptación
+
+* Al empezar una pausa, los conectados al partido reciben PAUSE_STARTED con tipo y duración, Al terminar reciben PAUSE_ENDED.
+* PAUSE_FINISHED trae sides_swapped: true en el Half-Time y false en el Cooling Break.
+* GET /state en pausa devuelve phase: PAUSED y pause con tipo y remaining_seconds. 
+* Fuera de pausa devuelve IN_PROGRESS y pause: null.
+* Si falla el envío del evento, el partido continúa.
+* El contrato queda actualizado con los eventos y campos nuevos.
+
+
+=====================================================DESARROLLO Substitution Motor =========================================================
+
+
+[BACK] Implementar función substitution en el motor
+
+Dado que MatchState ya contiene a los 6 jugadores de cada equipo con sus atributos y comportamiento, pero solo juegan los que tienen posición (ROL).
+Cuando se sustituye un titular por un suplente del mismo equipo.
+Entonces el suplente pasa a cancha en el lugar del titular (mismo rol y posición), el titular va al banco, y 
+desde el tick siguiente el suplente juega con sus atributos y su comportamiento.
+
+De esta forma el partido continúa con los cambios efectuados.
+
+Notas técnicas:
+
+* _02_to_match/state.py. No hay que cargar nada nuevo, porque attributes y behavior_id ya están en cada MatchPlayerState, 
+también en los suplentes. 
+* El executor carga los comportamientos de toda la alineación al arrancar. Lo único que cambia es quién está en cancha 
+(on_pitch_player_ids usa position is not None).
+Función "substitute_player(state, team_id, player_out_id, player_in_id)":
+* Valida que ambos sean del equipo, que el saliente esté en cancha y que el entrante esté en el banco.
+* El entrante recibe position, role e initial_position del saliente y queda con is_starter=True.
+* El saliente queda con esos tres en None, is_starter=False y current_action en IDLE.
+* Si algo no se cumple lanza InvalidSubstitutionError, propio del motor
+
+Fuera de Alcance:
+
+* No lanza un AppError, como MatchInitializationError. El endpoint de Subtitution traduce el InvalidSubstitutionError.
+* No valida que haya pausa ni el límite de cambios, eso es propio del endpoint. 
+* No toca la base de datos.
+
+Criterios de aceptación
+
+* Tras sustituir, el entrante está en cancha con posición, rol e initial_position del saliente.
+* El saliente queda en el banco sin posición ni rol.
+* on_pitch_player_ids() incluye al entrante y no al saliente, y el equipo sigue con 3 en cancha.
+* En el siguiente run_tick, el entrante ejecuta su propio comportamiento.
+* Entrante ya en cancha, saliente en el banco o jugador de otro equipo → InvalidSubstitutionError y el estado no cambia.
+* Los atributos y el behavior_id de ambos quedan intactos.
+
+=====================================================DESARROLLO Substitution Endpoint =========================================================
+
+[BACK] Implementar Endpoint de Substitution
+BLOQUEADO POR: Implementar lógica de ticks en Pausas e Implementar función substitution en el motor
+
+Dado que el contrato define POST /api/v1/matches/{matchId}/teams/{teamId}/substitutions y no existe en el back.
+Cuando el usuario de un equipo envía player_in_id y player_out_id durante una pausa.
+Entonces el cambio se aplica en el partido, se registra, la respuesta es 201 con substitution_id y
+el partido sigue con el cambio al terminar la pausa.
+
+De esta forma el usuario puede rearmar su equipo en cada pausa.
+
+Notas técnicas
+
+* Archivos nuevos: ruta, services/substitution_service.py y schemas. 
+* Seguir el patrón de routes/match_state.py:
+    Ruta async def, con la base consultada vía run_in_threadpool.
+* Ningún await entre el chequeo y el cambio sobre MatchState. En pausa el motor está dormido, así que no se pisan.
+* Tabla nueva substitutions (modelo y migración de Alembic): substitution_id, match_id, team_id, player_in_id, player_out_id, pause_number.
+UNIQUE(match_id, team_id, pause_number) garantiza un cambio por equipo por pausa, incluso con dos pedidos simultáneos (IntegrityError → 409).
+Constraints con name=.
+
+* Errores del contrato:
+    401 UNAUTHORIZED
+    404 RESOURCE_NOT_FOUND
+    403 UNAUTHORIZED_ACTION (el teamId no es el del usuario)
+    400 MATCH_NOT_IN_BREAK
+    400 INVALID_PLAYER_SELECTION (traduce InvalidSubstitutionError)
+    409 SUBSTITUTION_LIMIT_EXCEEDED
+
+* Límite: el contrato dice “el equipo ya ha realizado un cambio” (uno en total, puede confundir) y el Sprint 3 pide uno por pausa. 
+Se implementa uno por pausa y se corrige el mensaje del contrato.
+
+Fuera de este ticket: 
+Planificar el cambio antes de la pausa, esto es responsabilidad del Requerimiento 18.
+
+Criterios de aceptación
+
+* En pausa, un pedido válido devuelve 201 con substitution_id, match_id, team_id, player_in_id y player_out_id. 
+* El MatchState refleja el cambio y queda una fila en substitutions.
+* Si el partido no está en pausa → 400 MATCH_NOT_IN_BREAK, sin cambios.
+* Jugadores inválidos → 400 INVALID_PLAYER_SELECTION.
+* Un segundo cambio del mismo equipo en la misma pausa → 409. En la pausa siguiente sí se permite.
+* Equipo ajeno → 403
+* Partido, equipo o jugador inexistente → 404.
+Hay tests del servicio y del endpoint, y la migración se aplica sin errores.
+
+
+OBSERVACIÓN: Estoy en proceso de separar en Tickets del Endpoint Sustituciones del modelo de sustituciones.
+
+
+=====================================FASE DE PRUEBA: SEPARACION ENDPOINT CON MODELO SUSTITUCION ===================================
+
+[BACK] Implementar modelo de sustitución
+
+Dado que el contrato devuelve un substitution_id al hacer un cambio y el sistema debe controlar que cada equipo haga 
+como máximo un cambio por pausa, pero no existe ninguna tabla donde guardarlos.
+Cuando se registra una sustitución de un partido.
+Entonces queda guardada en la tabla substitutions con el partido, el equipo, el jugador que entra, el que sale y el número de pausa, 
+y la base rechaza un segundo cambio del mismo equipo en la misma pausa.
+
+De esta forma el endpoint de sustituciones puede devolver un id y apoyarse en la base para hacer cumplir el límite.
+
+Notas técnicas:
+
+* Solo persistencia, igual que los tickets de Match y Player. 
+* El modelo Substitution va en src/models/substitution.py. 
+* Hay que importarlo en models/__init__.py (si no, Alembic no lo ve) y crear la migración.
+
+* Columnas:
+    substitution_id: PK autoincremental.
+    match_id: FK a matches, ondelete="CASCADE", NOT NULL, con índice.
+    team_id: FK a teams, ondelete="CASCADE", NOT NULL.
+    player_in_id y player_out_id: FK a players, ondelete="CASCADE", NOT NULL (mismo criterio que lineup_entries).
+    pause_number: entero NOT NULL, la pausa del calendario (1, 2, 3).
+    Constraints, todos con name= por la naming convention:
+    UniqueConstraint(match_id, team_id, pause_number): un cambio por equipo por pausa. Es lo que frena dos pedidos simultáneos.
+    CheckConstraint("player_in_id != player_out_id").
+    CheckConstraint("pause_number >= 1").
+    Sin relationship por ahora, porque nada del alcance lo necesita.
+
+* Tests de persistencia siguiendo el patrón de test_lineup_entry_persistence.py.
+
+Criterios de aceptación:
+
+* Se puede guardar una sustitución válida y queda con substitution_id asignado.
+* Dos sustituciones del mismo equipo, partido y pausa → IntegrityError. 
+* En otra pausa, o de otro equipo, se guardan bien.
+* player_in_id igual a player_out_id, o pause_number menor a 1 → IntegrityError.
+* Al borrar el partido se borran sus sustituciones (con PRAGMA foreign_keys=ON en los tests).
+* La migración de Alembic crea la tabla y se puede revertir sin errores.

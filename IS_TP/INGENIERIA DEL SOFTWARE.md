@@ -5,3 +5,4 @@ Enfocado en el TEÓRICO - PRÁCTICO.
 
 ## SECCIONES:
 * [[PARCIAL 1]]
+* [[PARCIAL 2]]

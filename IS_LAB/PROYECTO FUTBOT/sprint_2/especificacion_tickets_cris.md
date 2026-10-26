@@ -12,6 +12,16 @@
 * 13.1 [BACK] Implementar endpoint de unirse a partido amistoso `POST /api/v1/matches/{matchId}/join`
 * 14.6 [FRONT] Redirigir a la pantalla de partido **Duda sobre el propósito de la existencia de este ticket, consultarlo si es posible con Fer, y si no podríamos utilizar directamente el requerimiento 16**
 
+## Nuevos Tickets a especificar:
+Iniciar Partido:
+* 14.3 [BACK] Implementar Websocket del partido
+Ejecutar comportamientos:
+* 15.3 [BACK] Enviar resultados de los cambios realizados por el comportamiento. 
+Inicialización del sistema:
+* 18.2 [FRONT] Inicialización de proyecto ReactJS. 
+Websockets:
+* 19.1 [WS] Implementar Event Bus y WS global de eventos del sistema.
+
 ## Especificaciones:
 
 ### 1.4 [FRONT] Integrar el formulario con el endpoint de registrar usuario y manejar errores de registro
@@ -26,7 +36,7 @@
 * Endpoint: `POST /api/v1/auth/register`
 * Utiliza el servicio `createHttpService` para realizar la llamada al Backend
 * Al recibir la respuesta:
-    * Mostrar el mensaje acorde al Response
+    * Mostrar el mensaje acorde al código HTTP
 
 **Criterios de Aceptación**
 * Bloqueo de reenvío ante request en curso
@@ -86,19 +96,24 @@ De esta forma, el usuario puede crear el jugador con sus atributos dentro del ra
 * Ejecutan sin excepción en un tick de prueba.
 * Cada uno es funcionalmente distinguible en una simulación simple (ej. el ofensivo se acerca a la pelota, el defensivo no se aleja de su arco).
 
-### 5.3 [FRONT] Integrar  “UI” con el endpoint `GET /api/v1/behaviors/{behavior_id}` (provisional) [e implementar manejo de errores si los hay].
+### 5.3 [FRONT] Integrar  “UI” con el endpoint `GET /api/v1/behaviors/{behavior_id}` [e implementar manejo de errores si los hay].
 
-**Necesitamos ver si vamos a desarrollar este endpoint primeramente y también por como resolvimos la bifurcación, cómo hacemos que se comporte el endpoint de lista de comportamientos, si lo pensamos unicamente por ahora en listar los por default, o si ya lo hacemos escalable y pensando en que en el siguiente sprint posiblemente nos pidan crear comportamientos custom.**
-
-**Priorizar la lista y detallado de los comportamientos por default, no tener en cuenta la escalabilidad para los comportamientos propios.**
+**Dado que** el listado completo de comportamientos por default ya fue obtenido vía `GET /api/v1/behaviors`,
+**cuando** el usuario selecciona uno,
+**entonces** el frontend realiza una petición a `GET /api/v1/behaviors/{behavior_id}` y despliega el detalle completo (nombre, descripción y código) en la UI.
 
 **Notas Técnicas:**
-
--
+* Endpoint `GET /api/v1/behaviors/{behavior_id}`
+* Token de autenticación
+* Utiliza el servicio `createHttpService` para realizar la llamada al Backend
+* Al recibir la respuesta:
+    * Mostrar el mensaje acorde al código HTTP
 
 **Criterio de Aceptación**
+* Ante respuesta `200`: renderiza correctamente el nombre, la descripción y el bloque de código del comportamiento.
+* Ante respuesta `401`: redirige automáticamente al usuario al /login notificando que la sesión expiró.
+* Ante respuesta `404`: muestra un mensaje de error indicando que el comportamiento no existe o fue eliminado.
 
--
 
 ### 7.1  [BACK] Implementar endpoint de listar ligas `GET /api/v1/leagues`
 
@@ -123,7 +138,7 @@ De esta forma, el usuario puede crear el jugador con sus atributos dentro del ra
 
 **cuando** el usuario confirma la inscripción,
 
-**entonces** el Frontend invoca el endpoint `POST /api/v1/leagues/{leagueId}/teams` con esos datos, y ante éxito, redirige a la sala de espera (lobby) de la liga
+**entonces** el Frontend invoca el endpoint `POST /api/v1/leagues/{leagueId}/teams` con esos datos, y ante éxito, redirige a la sala de espera (lobby) de la liga.
 
 **Notas técnicas:**
 
@@ -165,7 +180,7 @@ De esta forma, el usuario puede crear el jugador con sus atributos dentro del ra
 **Notas técnicas:**
 * Endpoint: POST /api/v1/matches/{matchId}/join
 * Request body: team_id.
-* Al confirmarse la unión, el sistema debe disparar el evento MATCH_STARTED por el Event Bus.
+* Al confirmarse la unión, el sistema debe disparar el evento `MATCH_STARTED` por el Event Bus.
 
 **Criterios de aceptación**
 * Dado equipo válido y partido disponible, responde `200` y el partido pasa a `IN_PROGRESS`.
@@ -178,16 +193,75 @@ De esta forma, el usuario puede crear el jugador con sus atributos dentro del ra
 
 **Dado que** el usuario está en la sala de espera
 
-**cuando** el sistema emite `MATCH_INITIATED` para ese partido por el canal WS global.
+**cuando** el sistema emite `MATCH_STARTED` para ese partido por el canal WS global.
 
 **entonces** el frontend solicita el token del partido, conecta al canal correspondiente, y recién ahí redirige de la sala de espera a la pantalla de partido.
 
 **Notas técnicas:**
-Gestión de la pantalla de partido vía conexión con websockets global
+* Gestión de la pantalla de partido vía conexión con websockets global
 
 **Criterios de aceptación:**
 * Al recibir la respuesta de websockets global: se ejecuta la redirección de manera automática sin intervención del usuario.
 
+## Nuevas especificaciones:
+
+### 14.3 [WS] Implementar Websocket del partido
+
+**Dado que** un partido pasa a estado IN_PROGRESS,
+
+**cuando** un jugador de ese partido solicita conectarse a la transmisión en vivo,
+
+**entonces** el sistema le emite un token temporal y acepta la conexión WS autenticada con ese token.
+
+**Notas técnicas:**
+* `POST /api/v1/matches/{matchId}/live-token` → websocket_url + token JWT, expira en 60s.
+* **No incluye** la emisión de **TICK_UPDATE**, eso depende del motor de simulación. Este ticket es solo la infraestructura de conexión/autenticación.
+
+**Criterios de Aceptación:**
+* `POST /api/v1/matches/{matchId}/live-token` devuelve credenciales válidas para un partido en curso.
+* Devuelve `404` si el partido no existe o no está iniciado.
+* La conexión WS se rechaza con token inválido/expirado.
+
+### 15.3 [BACK] Enviar resultados de los cambios realizados por el comportamiento.
+**Bloqueado hasta resolver lo del motor.**
+
+### 18.2 [FRONT] Inicialización de proyecto ReactJS
+
+**Dado que** el equipo necesita una base común para el frontend,
+
+**cuando** se inicializa el repositorio,
+
+**entonces** queda un proyecto ReactJS corriendo localmente, con la estructura y herramientas que el resto de los tickets FRONT van a reutilizar.
+
+**Notas Técnicas**
+* Ruteo (React Router u otro).
+* Capa de cliente HTTP compartida *createHTTPService*.
+* Variables de entorno (URL base del backend).
+* README de instalación/ejecución.
+
+**Criterios de aceptación**
+* El proyecto corre de manera local.
+* Existe la capa HTTP compartida, lista para usarse.
+* El README alcanza para levantar el proyecto sin ayuda externa.
+
+### 19.1 [WS] Implementar Event Bus y WS global de eventos del sistema.
+
+**Dado que** varias pantallas necesitan enterarse en tiempo real de eventos del sistema,
+
+**cuando** ocurre una acción REST que genera uno de esos eventos,
+
+**entonces** el sistema lo retransmite de forma asíncrona a los clientes conectados al canal global.
+
+**Notas Técnicas:**
+
+* POST /api/v1/live-token/global → token + websocket_url, expira en 60s.
+* Eventos a implementar: `FRIENDLY_CREATED, FRIENDLY_CANCELLED, GUEST_JOINED_FRIENDLY, LEAGUE_CREATED, LEAGUE_INITIATED, LEAGUE_CANCELLED, TEAM_JOINED_LEAGUE, MATCH_STARTED, MATCH_FINISHED,LEAGUE_MATCH_FINISHED, LEAGUE_FINISHED, LEAVE_LOBBY_LEAGUE, LEAVE_LOBBY_FRIENDLY`.
+* Esto implica tocar los endpoints REST ya implementados (crear/cancelar amistoso, unirse, etc.) para que publiquen al bus — no reimplementarlos.
+
+**Criterios de aceptación**
+* Token global válido y conexión rechazada si es inválido/expirado.
+* Cada acción REST relevante dispara su evento correspondiente en la misma operación (no diferido).
+* Un cliente conectado lo recibe sin polling.
 
 ## Observaciones:
 
