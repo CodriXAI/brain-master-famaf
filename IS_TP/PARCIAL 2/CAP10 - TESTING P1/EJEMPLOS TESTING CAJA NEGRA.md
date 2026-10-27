@@ -1,5 +1,4 @@
 - **Especificación / Oráculo**: Un sistema de monitoreo de energía de un dispositivo acepta un rango de energía $N$ en el rango de $1$ a $100$. En caso de que esté dentro del rango permitido, el sistema envía "Dispositivo con energía", en caso de ingresar un valor menor a 1, el sistema envía "El dispositivo se apagó por falta de energia" y en caso de ingresar un valor mayor a 100, el sistema envía "El dispositivo se apagó por seguridad".
-
 ## Particionado por Clases de Equivalencia
 - **Clases de Equivalencia**:
     - **Clase Válida**: $1 \le N \le 100$ (Rango permitido)
